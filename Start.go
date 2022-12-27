@@ -9,6 +9,19 @@ import (
 
 var backends []string // Used to communicate with other backends
 
+func removeSelf(selfPort string, backend []string) []string {
+	res := []string{}
+
+	for _, port := range backend {
+		fmt.Println(port[1:])
+		if selfPort != port[1:] {
+			res = append(res, port)
+		}
+	}
+
+	return res
+}
+
 func main() {
 	fmt.Println("Starting Cassandra")
 
@@ -17,7 +30,7 @@ func main() {
 	// --listen
 	port = os.Args[2]
 
-	backends := strings.Split(os.Args[4], ",")
+	backends := removeSelf(port, strings.Split(os.Args[4], ","))
 	listener, err := net.Listen("tcp", ":"+port)
 
 	if err != nil {
@@ -26,7 +39,6 @@ func main() {
 	}
 
 	fmt.Println(backends)
-	fmt.Println("Listening on TCP")
 
 	defer listener.Close()
 
