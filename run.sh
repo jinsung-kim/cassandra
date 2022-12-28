@@ -26,7 +26,6 @@ do
     for ((j=i; j<i+rf; j++))
     do
         CORRESPONDING+=":${PORT_NUMBERS[j]},"
-        echo "$j"
     done
 
     for ((j=i; j<i+rf; j++))
